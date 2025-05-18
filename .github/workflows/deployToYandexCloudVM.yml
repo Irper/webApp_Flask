@@ -22,7 +22,7 @@ jobs:
         with:
           host: ${{ secrets.YC_VM_IP }}
           username: ${{ secrets.YC_SSH_USER }}
-          key: ${{ secrets.YC_SSH_KEY }}
+          key: ${{ secrets.YC_SSH_PKEY }}
           script: |
             docker stop my-app || true
             docker rm my-app || true
@@ -37,6 +37,6 @@ jobs:
         run: |
           docker save -o my-app.tar my-app:latest
           scp -o StrictHostKeyChecking=no \
-              -i ${{ secrets.YC_SSH_KEY }} \
+              -i ${{ secrets.YC_SSH_PKEY }} \
               my-app.tar \
               ${{ secrets.YC_SSH_USER }}@${{ secrets.YC_VM_IP }}:/tmp/
