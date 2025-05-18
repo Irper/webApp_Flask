@@ -25,7 +25,7 @@ jobs:
 
 
       - name: Connect to YC VM
-        uses: appleboy/ssh-action@0.1.4
+        uses: appleboy/ssh-action@v0.1.4
         with:
           host: ${{ secrets.YC_VM_IP }}
           username: ${{ secrets.YC_VM_USER }}
