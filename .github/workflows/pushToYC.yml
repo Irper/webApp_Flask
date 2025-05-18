@@ -12,7 +12,7 @@ env:
   DOCKER_IMAGE_TAG: "latest"                              # Тег образа
   YC_VM_USER: ${{ secrets.YC_VM_USER }}                   # Пользователь ВМ Yandex Cloud
   YC_VM_IP: ${{ secrets.YC_VM_IP }}                       # IP виртуальной машины
-  YC_VM_SSH_KEY: ${{ secrets.YC_VM_SSH_KEY }}             # Приватный SSH-ключ для подключения
+  YC_SSH_PKEY: ${{ secrets.YC_SSH_PKEY }}             # Приватный SSH-ключ для подключения
 
 jobs:
   build-and-deploy:
@@ -35,7 +35,7 @@ jobs:
 
       - name: Deploy to Yandex Cloud VM
         run: |
-          ssh -i ~\webApp_Flask\ssh_rsa -l ${{ secrets.YC_VM_USER }} ${{ secrets.YC_VM_IP }} "
+          ssh ${{ YC_SSH_PKEY }} -l ${{ secrets.YC_VM_USER }} ${{ secrets.YC_VM_IP }} "
           docker stop $DOCKER_IMAGE_NAME || true && \
           docker rm $DOCKER_IMAGE_NAME || true && \
           docker pull $DOCKER_HUB_USERNAME/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG && \
