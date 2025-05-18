@@ -19,6 +19,9 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
 
       # Логинимся в Docker Hub и пушим образ
       - name: Login to Docker Hub
