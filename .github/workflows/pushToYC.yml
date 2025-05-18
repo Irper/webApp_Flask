@@ -16,7 +16,7 @@ env:
   YC_PASSPHRASE: ${{ secrets.YC_PASSPHRASE }}
 
 jobs:
-  build-and-deploy:
+  connect:
     runs-on: ubuntu-latest
 
     steps:
