@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dc0c28fb-fcda-4849-8d78-bd84bd83961b" name="Changes" comment="changes...">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/pushToYC.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/pushToYC.yml" afterDir="false" />
-    </list>
+    <list default="true" id="dc0c28fb-fcda-4849-8d78-bd84bd83961b" name="Changes" comment="changes..." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -93,14 +91,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1746938924722</updated>
-    </task>
-    <task id="LOCAL-00001" summary="New project">
-      <option name="closed" value="true" />
-      <created>1746939124298</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1746939124298</updated>
     </task>
     <task id="LOCAL-00002" summary="New project">
       <option name="closed" value="true" />
@@ -454,7 +444,47 @@
       <option name="project" value="LOCAL" />
       <updated>1747555345532</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="changes...">
+      <option name="closed" value="true" />
+      <created>1747555539848</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1747555539848</updated>
+    </task>
+    <task id="LOCAL-00047" summary="changes...">
+      <option name="closed" value="true" />
+      <created>1747555620652</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1747555620652</updated>
+    </task>
+    <task id="LOCAL-00048" summary="changes...">
+      <option name="closed" value="true" />
+      <created>1747555650582</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1747555650582</updated>
+    </task>
+    <task id="LOCAL-00049" summary="changes...">
+      <option name="closed" value="true" />
+      <created>1747555737909</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1747555737909</updated>
+    </task>
+    <task id="LOCAL-00050" summary="changes...">
+      <option name="closed" value="true" />
+      <created>1747555795510</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1747555795510</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="UnknownFeatures">
