@@ -13,6 +13,7 @@ env:
   YC_VM_USER: ${{ secrets.YC_VM_USER }}                   # Пользователь ВМ Yandex Cloud
   YC_VM_IP: ${{ secrets.YC_VM_IP }}                       # IP виртуальной машины
   YC_SSH_PKEY: ${{ secrets.YC_SSH_PKEY }}             # Приватный SSH-ключ для подключения
+  YC_PASSPHRASE: ${{ YC_PASSPHRASE }}
 
 jobs:
   build-and-deploy:
@@ -32,10 +33,18 @@ jobs:
       - name: Push Docker image
         run: docker push $DOCKER_HUB_USERNAME/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG
 
+      - name: Connect to YC VM
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.YC_VM_IP }}
+          username: ${{ secrets.YC_VM_USER }}
+          key: ${{ secrets.YC_SSH_PKEY }}
+          passphrase: ${{ YC_PASSPHRASE }}
+          port: 22
 
       - name: Deploy to Yandex Cloud VM
         run: |
-          ssh -i ${{ secrets.YC_SSH_PKEY }} -l irper 158.160.13.76 "
+          "
           docker stop $DOCKER_IMAGE_NAME || true && \
           docker rm $DOCKER_IMAGE_NAME || true && \
           docker pull $DOCKER_HUB_USERNAME/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG && \
