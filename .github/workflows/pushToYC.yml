@@ -42,7 +42,7 @@ jobs:
 
       - name: Deploy to Yandex Cloud VM
         run: |
-          ssh -i ssh_rsa -o StrictHostKeyChecking=no ${{ secrets.YC_VM_USER }}@${{ secrets.YC_VM_IP }} "
+          ssh -i ~/ssh_rsa -o StrictHostKeyChecking=no ${{ secrets.YC_VM_USER }}@${{ secrets.YC_VM_IP }} "
           docker stop $DOCKER_IMAGE_NAME || true && \
           docker rm $DOCKER_IMAGE_NAME || true && \
           docker pull $DOCKER_HUB_USERNAME/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG && \
