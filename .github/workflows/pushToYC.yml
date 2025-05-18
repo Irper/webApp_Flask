@@ -10,7 +10,7 @@ env:
   DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}       # Токен Docker Hub
   DOCKER_IMAGE_NAME: "webapp-flask"                       # Название образа
   DOCKER_IMAGE_TAG: "latest"                              # Тег образа
-  YC_VM_USER: ${{ secrets.YC_VM_USER }}                   # Пользователь ВМ Yandex Cloud
+  YC_VM_USER: ${{ secrets.YC_SSH_USER }}                   # Пользователь ВМ Yandex Cloud
   YC_VM_IP: ${{ secrets.YC_VM_IP }}                       # IP виртуальной машины
   YC_SSH_PKEY: ${{ secrets.YC_SSH_PKEY }}             # Приватный SSH-ключ для подключения
   YC_PASSPHRASE: ${{ secrets.YC_PASSPHRASE }}
