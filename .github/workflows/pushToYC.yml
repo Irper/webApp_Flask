@@ -27,15 +27,7 @@ jobs:
           username: irper
           key: ${{ secrets.KEY }}
           passphrase: ${{ secrets.YC_PASSPHRASE }}
+          script: |
+            echo "Hello from GitHub Actions!"
 
-
-      - name: Connect and run a command
-        run: |
-          ssh -o StrictHostKeyChecking=no \
-              -o UserKnownHostsFile=/dev/null \
-              -i ${{ secrets.KEY }} \
-              -p ${{ secrets.YC_PASSPHRASE }} \
-              irper@158.160.13.76 \
-              "echo 'Hello from GitHub Actions!'"
- 
 
