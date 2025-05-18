@@ -41,7 +41,7 @@ jobs:
           passphrase: ${{ secrets.YC_PASSPHRASE }}
           script: |
             sudo docker run -p 80:5000 -d --rm --name ${{ env.DOCKER_IMAGE_NAME }} ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}
-            docker run -d \
+            sudo docker run -d \
               --name watchtower \
               -v /var/run/docker.sock:/var/run/docker.sock \
               containrrr/watchtower --interval 10
