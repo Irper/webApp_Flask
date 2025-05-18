@@ -44,10 +44,10 @@ jobs:
           key: ${{ secrets.KEY }}
           passphrase: ${{ secrets.YC_PASSPHRASE }}
           script: |
-            docker pull ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:${{ env.DOCKER_IMAGE_TAG }}
-            docker stop ${{ env.DOCKER_IMAGE_NAME }} || true
-            docker rm ${{ env.DOCKER_IMAGE_NAME }} || true
-            docker run -d --name ${{ env.DOCKER_IMAGE_NAME }} -p 22:5000 ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:${{ env.DOCKER_IMAGE_TAG }}
+            sudo docker pull ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:${{ env.DOCKER_IMAGE_TAG }}
+            sudo docker stop ${{ env.DOCKER_IMAGE_NAME }} || true
+            sudo docker rm ${{ env.DOCKER_IMAGE_NAME }} || true
+            sudo docker run -d --name ${{ env.DOCKER_IMAGE_NAME }} -p 22:5000 ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:${{ env.DOCKER_IMAGE_TAG }}
             
 
 
