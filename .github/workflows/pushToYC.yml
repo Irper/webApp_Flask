@@ -38,7 +38,7 @@ jobs:
         with:
           host: ${{ secrets.YC_VM_IP }}
           username: ${{ secrets.YC_VM_USER }}
-          key: ${{ secrets.YC_SSH_PKEY }}
+          key: ${{ secrets.YC_SSH_KEY }}
           passphrase: ${{ secrets.YC_PASSPHRASE }}
           port: 22
 
