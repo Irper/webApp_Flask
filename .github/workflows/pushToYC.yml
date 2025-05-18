@@ -9,7 +9,6 @@ env:
   DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}  # Логин Docker Hub
   DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}       # Токен Docker Hub
   DOCKER_IMAGE_NAME: "webapp-flask"                       # Название образа
-  DOCKER_IMAGE_TAG: "latest"                              # Тег образа
   YC_VM_USER: ${{ secrets.YC_SSH_USER }}                   # Пользователь ВМ Yandex Cloud
   YC_VM_IP: ${{ secrets.YC_VM_IP }}                       # IP виртуальной машины
   YC_SSH_PKEY: ${{ secrets.KEY }}             # Приватный SSH-ключ для подключения
@@ -27,10 +26,10 @@ jobs:
         run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
 
       - name: Build Docker image
-        run: docker build -t $DOCKER_HUB_USERNAME/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG .
+        run: docker build -t $DOCKER_HUB_USERNAME/$DOCKER_IMAGE_NAME .
 
       - name: Push Docker image
-        run: docker push $DOCKER_HUB_USERNAME/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG
+        run: docker push $DOCKER_HUB_USERNAME/$DOCKER_IMAGE_NAME
 
 
       - name: Connect to YC VM
@@ -41,8 +40,8 @@ jobs:
           key: ${{ secrets.KEY }}
           passphrase: ${{ secrets.YC_PASSPHRASE }}
           script: |
-            sudo docker pull ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:${{ env.DOCKER_IMAGE_TAG }}
-            sudo docker stop $(docker ps -a -q)
-            sudo docker container prune --force
-            sudo docker rmi $(sudo docker images -q)
-            sudo docker run -p 80:5000 -d --rm --name ${{ env.DOCKER_IMAGE_NAME }} ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:${{ env.DOCKER_IMAGE_TAG }}
+            sudo docker run -p 80:5000 -d --rm --name ${{ env.DOCKER_IMAGE_NAME }} ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}
+            docker run -d \
+              --name watchtower \
+              -v /var/run/docker.sock:/var/run/docker.sock \
+              containrrr/watchtower --interval 10
