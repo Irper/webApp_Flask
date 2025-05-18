@@ -23,14 +23,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Connect to YC VM
-        uses: appleboy/ssh-action@master
+      - name: Install SSH key
+        uses: webfactory/ssh-agent@v0.9.0
         with:
-          host: ${{ secrets.YC_VM_IP }}
-          username: ${{ secrets.YC_VM_USER }}
-          key: ${{ secrets.KEY }}
-          passphrase: ${{ secrets.YC_PASSPHRASE }}
-          port: 22
+          ssh-private-key: ${{ secrets.YC_SSH_KEY }}
+
+      - name: Connect and run a command
+        run: |
+          ssh -o StrictHostKeyChecking=no \
+              -o UserKnownHostsFile=/dev/null \
+              irper@158.160.13.76 \
+              "echo 'Hello from GitHub Actions!'"
+ 
 
       - name: Deploy to Yandex Cloud VM
         run: |
