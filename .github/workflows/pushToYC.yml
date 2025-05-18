@@ -32,7 +32,7 @@ jobs:
           host: ${{ secrets.YC_VM_IP }}
           user: ${{ secrets.YC_VM_USERNAME }}
           key: ${{ secrets.KEY}}
-
+          pass: ${{ secrets.YC_PASSPHRASE}}
 
       - name: Connect and run a command
         run: |
