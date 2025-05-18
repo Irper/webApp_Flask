@@ -25,7 +25,7 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.YC_VM_IP }}
-          username: ${{ secrets.YC_VM_USER }}
+          username: ${{ secrets.YC_SSH_USER }}
           key: ${{ secrets.KEY }}
           passphrase: ${{ secrets.YC_PASSPHRASE }}
           script: |
