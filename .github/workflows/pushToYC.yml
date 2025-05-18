@@ -23,8 +23,8 @@ jobs:
       - name: SSH Deploy
         uses: appleboy/ssh-action@master
         with:
-          host: 158.160.13.76
-          username: irper
+          host: ${{ secrets.YC_VM_IP }}
+          username: ${{ secrets.YC_VM_USER }}
           key: ${{ secrets.KEY }}
           passphrase: ${{ secrets.YC_PASSPHRASE }}
           script: |
