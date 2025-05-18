@@ -24,7 +24,6 @@ jobs:
         uses: actions/checkout@v4
 
 
-
       - name: Connect to YC VM
         uses: appleboy/ssh-action@master
         with:
