@@ -24,11 +24,15 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Add SSH key with passphrase
-        uses: shimataro/ssh-key-action@v2
+        uses: fifsky/ssh-action@master
         with:
-          key: ${{ secrets.YC_SSH_KEY }}
-          passphrase: ${{ secrets.SSH_KEY_PASSPHRASE }}
-          name: ssh_rsa
+          command: |
+            cd /tmp
+            ls -a
+          host: ${{ secrets.YC_VM_IP }}
+          user: ${{ secrets.YC_VM_USERNAME }}
+          key: ${{ secrets.KEY}}
+
 
       - name: Connect and run a command
         run: |
