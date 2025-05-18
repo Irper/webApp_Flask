@@ -10,4 +10,4 @@ def hello_world():
   return render_template('/hello.html', name=__name__)
 
 if __name__ == '__main__':
-  app.run(debug=True)
+  app.run(host='0.0.0.0', port=5000)
