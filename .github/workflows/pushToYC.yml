@@ -12,7 +12,7 @@ env:
   DOCKER_IMAGE_TAG: "latest"                              # Тег образа
   YC_VM_USER: ${{ secrets.YC_SSH_USER }}                   # Пользователь ВМ Yandex Cloud
   YC_VM_IP: ${{ secrets.YC_VM_IP }}                       # IP виртуальной машины
-  YC_SSH_PKEY: ${{ secrets.YC_SSH_PKEY }}             # Приватный SSH-ключ для подключения
+  YC_SSH_PKEY: ${{ secrets.KEY }}             # Приватный SSH-ключ для подключения
   YC_PASSPHRASE: ${{ secrets.YC_PASSPHRASE }}
 
 jobs:
@@ -45,8 +45,6 @@ jobs:
           passphrase: ${{ secrets.YC_PASSPHRASE }}
           script: |
              "
-             docker stop $DOCKER_IMAGE_NAME || true && \
-             docker rm $DOCKER_IMAGE_NAME || true && \
              docker pull $DOCKER_HUB_USERNAME/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG && \
              docker run -d --name $DOCKER_IMAGE_NAME -p 22:5000 $DOCKER_HUB_USERNAME/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG
              "
