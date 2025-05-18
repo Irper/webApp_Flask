@@ -16,16 +16,27 @@ jobs:
       - name: Build Docker image
         run: docker build -t my-app:latest .
 
-
-      # Шаг 4: Деплой на VM через SSH
-      - name: Deploy via SSH
+      # Шаг 2: Копирование образа на Yandex.Cloud через SSH
+      - name: Deploy to YC VM
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.YC_VM_IP }}
           username: ${{ secrets.YC_SSH_USER }}
           key: ${{ secrets.YC_SSH_KEY }}
           script: |
-            docker pull cr.yandex/${{ secrets.YC_IMAGE_REGISTRY }}/my-app:latest || true
             docker stop my-app || true
             docker rm my-app || true
-            docker run -d --name my-app -p 80:5000 cr.yandex/${{ secrets.YC_IMAGE_REGISTRY }}/my-app:latest
+            docker load < my-app.tar
+            docker run -d \
+              --name my-app \
+              -p 80:5000 \
+              my-app:latest
+
+      # Шаг 3: Передача образа на сервер (альтернатива через docker save/load)
+      - name: Upload image to VM
+        run: |
+          docker save -o my-app.tar my-app:latest
+          scp -o StrictHostKeyChecking=no \
+              -i ${{ secrets.YC_SSH_KEY }} \
+              my-app.tar \
+              ${{ secrets.YC_SSH_USER }}@${{ secrets.YC_VM_IP }}:/tmp/

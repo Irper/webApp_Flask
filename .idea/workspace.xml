@@ -5,8 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dc0c28fb-fcda-4849-8d78-bd84bd83961b" name="Changes" comment="changes...">
-      <change afterPath="$PROJECT_DIR$/.github/workflows/deployToYandexCloudVM.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/docker.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/dockerBuildAndPush.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -147,7 +145,23 @@
       <option name="project" value="LOCAL" />
       <updated>1746941500357</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="changes...">
+      <option name="closed" value="true" />
+      <created>1747546727620</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1747546727620</updated>
+    </task>
+    <task id="LOCAL-00009" summary="changes...">
+      <option name="closed" value="true" />
+      <created>1747546917127</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1747546917127</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="UnknownFeatures">
