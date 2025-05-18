@@ -30,7 +30,7 @@ jobs:
           username: ${{ secrets.YC_VM_USER }}
           key: ${{ secrets.KEY }}
           passphrase: ${{ secrets.YC_PASSPHRASE }}
-          port: 22
+          port: 80
 
       - name: Deploy to Yandex Cloud VM
         run: |
