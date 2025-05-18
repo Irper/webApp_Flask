@@ -26,7 +26,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          pass: ${{ secrets.YC_PASSPHRASE }}
+          passphrase: ${{ secrets.YC_PASSPHRASE }}
 
 
       - name: Connect and run a command
