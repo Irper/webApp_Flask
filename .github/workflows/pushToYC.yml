@@ -43,5 +43,5 @@ jobs:
           script: |
             sudo docker pull ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:${{ env.DOCKER_IMAGE_TAG }}
             sudo docker stop ${{ env.DOCKER_IMAGE_NAME }} || true
-            sudo docker rm ${{ env.DOCKER_IMAGE_NAME }} || true
+            sudo docker rm ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }} || true
             sudo docker run -p 80:5000 -d --rm --name ${{ env.DOCKER_IMAGE_NAME }} ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:${{ env.DOCKER_IMAGE_TAG }}
