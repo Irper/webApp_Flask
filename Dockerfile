@@ -10,4 +10,4 @@ RUN pip install -r requirements.txt
 
 COPY . /app
 
-CMD python flask-compose.py
+CMD python app.py
