@@ -1,0 +1,31 @@
+name: DeployToYandexCloudVM
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # Шаг 1: Сборка Docker-образа
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t my-app:latest .
+
+
+      # Шаг 4: Деплой на VM через SSH
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.YC_VM_IP }}
+          username: ${{ secrets.YC_SSH_USER }}
+          key: ${{ secrets.YC_SSH_KEY }}
+          script: |
+            docker pull cr.yandex/${{ secrets.YC_IMAGE_REGISTRY }}/my-app:latest || true
+            docker stop my-app || true
+            docker rm my-app || true
+            docker run -d --name my-app -p 80:3000 cr.yandex/${{ secrets.YC_IMAGE_REGISTRY }}/my-app:latest
