@@ -32,17 +32,10 @@ jobs:
       - name: Push Docker image
         run: docker push $DOCKER_HUB_USERNAME/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG
 
-      # Деплой на Yandex Cloud VM через SSH
-      - name: Set up SSH key
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.YC_VM_SSH_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.YC_VM_IP }} >> ~/.ssh/known_hosts
 
       - name: Deploy to Yandex Cloud VM
         run: |
-          ssh -i ~/ssh_rsa -o StrictHostKeyChecking=no ${{ secrets.YC_VM_USER }}@${{ secrets.YC_VM_IP }} "
+          ssh -i ~\webApp_Flask\ssh_rsa -l ${{ secrets.YC_VM_USER }} ${{ secrets.YC_VM_IP }} "
           docker stop $DOCKER_IMAGE_NAME || true && \
           docker rm $DOCKER_IMAGE_NAME || true && \
           docker pull $DOCKER_HUB_USERNAME/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG && \
