@@ -1,0 +1,51 @@
+name: DeployWebApp_FlaskToDockerHubAndYC
+
+on:
+  push:
+    branches: [ main ]  # Триггер на пуши в ветку main
+
+env:
+  DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}  # Логин Docker Hub
+  DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}       # Токен Docker Hub
+  DOCKER_IMAGE_NAME: "webApp-Flask"                       # Название образа
+  DOCKER_IMAGE_TAG: "latest"                              # Тег образа
+  YC_VM_USER: ${{ secrets.YC_VM_USER }}                   # Пользователь ВМ Yandex Cloud
+  YC_VM_IP: ${{ secrets.YC_VM_IP }}                       # IP виртуальной машины
+  YC_VM_SSH_KEY: ${{ secrets.YC_VM_SSH_KEY }}             # Приватный SSH-ключ для подключения
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Логинимся в Docker Hub и пушим образ
+      - name: Login to Docker Hub
+        run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
+
+      - name: Build Docker image
+        run: docker build -t $DOCKER_HUB_USERNAME/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG .
+
+      - name: Push Docker image
+        run: docker push $DOCKER_HUB_USERNAME/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG
+
+      # Деплой на Yandex Cloud VM через SSH
+      - name: Set up SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.YC_VM_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.YC_VM_IP }} >> ~/.ssh/known_hosts
+
+      - name: Deploy to Yandex Cloud VM
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.YC_VM_USER }}@${{ secrets.YC_VM_IP }} << 'EOF'
+          # Останавливаем и удаляем старый контейнер (если есть)
+          docker stop $DOCKER_IMAGE_NAME || true
+          docker rm $DOCKER_IMAGE_NAME || true
+          # Запускаем новый контейнер
+          docker pull $DOCKER_HUB_USERNAME/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG
+          docker run -d --name $DOCKER_IMAGE_NAME -p 80:5000 $DOCKER_HUB_USERNAME/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG
+          EOF
