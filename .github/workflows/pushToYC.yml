@@ -43,10 +43,8 @@ jobs:
       - name: Deploy to Yandex Cloud VM
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.YC_VM_USER }}@${{ secrets.YC_VM_IP }} << 'EOF'
-          # Останавливаем и удаляем старый контейнер (если есть)
           docker stop $DOCKER_IMAGE_NAME || true
           docker rm $DOCKER_IMAGE_NAME || true
-          # Запускаем новый контейнер
           docker pull $DOCKER_HUB_USERNAME/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG
           docker run -d --name $DOCKER_IMAGE_NAME -p 80:5000 $DOCKER_HUB_USERNAME/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG
           EOF
