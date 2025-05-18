@@ -40,7 +40,28 @@ jobs:
           key: ${{ secrets.KEY }}
           passphrase: ${{ secrets.YC_PASSPHRASE }}
           script: |
-            sudo docker stop $(sudo docker ps -a -q)
-            sudo docker container prune --force
-            sudo docker rmi $(sudo docker images -q)
-            sudo docker run -p 80:5000 -d --rm --name ${{ env.DOCKER_IMAGE_NAME }} ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}
+            # Получаем новый образ
+            sudo docker pull ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:latest
+
+            # Если контейнер уже работает
+            if sudo docker ps -a | grep -q ${{ env.DOCKER_IMAGE_NAME }}; then
+              # Запускаем новый контейнер с временным портом
+              sudo docker run -d -p 8080:5000 --name ${DOCKER_IMAGE_NAME}_new ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}
+
+              # Ждем инициализации
+              until curl -s -o /dev/null http://localhost:8080; do
+                sleep 1
+              done
+
+              # Останавливаем старый контейнер
+              sudo docker stop ${{ env.DOCKER_IMAGE_NAME }}
+              sudo docker rm ${{ env.DOCKER_IMAGE_NAME }}
+
+              # Перезапускаем новый контейнер на нужном порту
+              sudo docker stop ${DOCKER_IMAGE_NAME}_new
+              sudo docker rm ${DOCKER_IMAGE_NAME}_new
+              sudo docker run -d -p 80:5000 --name ${{ env.DOCKER_IMAGE_NAME }} ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}
+            else
+              # Если контейнер не работает, просто запускаем
+              sudo docker run -d -p 80:5000 --name ${{ env.DOCKER_IMAGE_NAME }} ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}
+            fi
