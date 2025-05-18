@@ -13,7 +13,7 @@ env:
   YC_VM_USER: ${{ secrets.YC_VM_USER }}                   # Пользователь ВМ Yandex Cloud
   YC_VM_IP: ${{ secrets.YC_VM_IP }}                       # IP виртуальной машины
   YC_SSH_PKEY: ${{ secrets.YC_SSH_PKEY }}             # Приватный SSH-ключ для подключения
-  YC_PASSPHRASE: ${{ YC_PASSPHRASE }}
+  YC_PASSPHRASE: ${{ secrets.YC_PASSPHRASE }}
 
 jobs:
   build-and-deploy:
@@ -39,7 +39,7 @@ jobs:
           host: ${{ secrets.YC_VM_IP }}
           username: ${{ secrets.YC_VM_USER }}
           key: ${{ secrets.YC_SSH_PKEY }}
-          passphrase: ${{ YC_PASSPHRASE }}
+          passphrase: ${{ secrets.YC_PASSPHRASE }}
           port: 22
 
       - name: Deploy to Yandex Cloud VM
