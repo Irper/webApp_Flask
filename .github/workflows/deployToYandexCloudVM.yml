@@ -28,4 +28,4 @@ jobs:
             docker pull cr.yandex/${{ secrets.YC_IMAGE_REGISTRY }}/my-app:latest || true
             docker stop my-app || true
             docker rm my-app || true
-            docker run -d --name my-app -p 80:3000 cr.yandex/${{ secrets.YC_IMAGE_REGISTRY }}/my-app:latest
+            docker run -d --name my-app -p 80:5000 cr.yandex/${{ secrets.YC_IMAGE_REGISTRY }}/my-app:latest
