@@ -8,7 +8,7 @@ on:
 env:
   DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}  # Логин Docker Hub
   DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}       # Токен Docker Hub
-  DOCKER_IMAGE_NAME: "webApp-Flask"                       # Название образа
+  DOCKER_IMAGE_NAME: "webapp-flask"                       # Название образа
   DOCKER_IMAGE_TAG: "latest"                              # Тег образа
   YC_VM_USER: ${{ secrets.YC_VM_USER }}                   # Пользователь ВМ Yandex Cloud
   YC_VM_IP: ${{ secrets.YC_VM_IP }}                       # IP виртуальной машины
