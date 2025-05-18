@@ -23,16 +23,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install sshpass and add key
-        env:
-          SSH_PASSPHRASE: ${{ secrets.YC_PASSPHRASE }}
-        run: |
-          sudo apt-get install -y sshpass
-          mkdir -p ~/.ssh
-          echo "${{ secrets.KEY }}" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
-          eval $(ssh-agent -s)
-          sshpass -p "$SSH_PASSPHRASE" ssh-add ~/.ssh/id_ed25519
+      - name: Add SSH key with passphrase
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.YC_SSH_KEY }}
+          passphrase: ${{ secrets.SSH_KEY_PASSPHRASE }}
+          name: ssh_rsa
 
       - name: Connect and run a command
         run: |
@@ -42,11 +38,3 @@ jobs:
               "echo 'Hello from GitHub Actions!'"
  
 
-      - name: Deploy to Yandex Cloud VM
-        run: |
-          "
-          docker stop $DOCKER_IMAGE_NAME || true && \
-          docker rm $DOCKER_IMAGE_NAME || true && \
-          docker pull $DOCKER_HUB_USERNAME/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG && \
-          docker run -d --name $DOCKER_IMAGE_NAME -p 22:5000 $DOCKER_HUB_USERNAME/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG
-          "
