@@ -27,6 +27,7 @@ jobs:
         uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.KEY }}
+          ssh-passphrase: ${{ secrets.YC_PASSPHRASE }}
 
       - name: Connect and run a command
         run: |
