@@ -18,21 +18,14 @@ env:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Add SSH key with passphrase
-        uses: fifsky/ssh-action@master
+      - name: SSH Deploy
+        uses: appleboy/ssh-action@master
         with:
-          command: |
-            cd /tmp
-            ls -a
-          host: ${{ secrets.YC_VM_IP }}
-          user: ${{ secrets.YC_VM_USERNAME }}
-          key: ${{ secrets.KEY}}
-          pass: ${{ secrets.YC_PASSPHRASE}}
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          pass: ${{ secrets.YC_PASSPHRASE }}
+
 
       - name: Connect and run a command
         run: |
