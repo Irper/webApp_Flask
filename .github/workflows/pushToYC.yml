@@ -33,7 +33,9 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no \
               -o UserKnownHostsFile=/dev/null \
-              irper 158.160.13.76 \
+              -i ${{ secrets.KEY }} \
+              -p ${{ secrets.YC_PASSPHRASE }} \
+              irper@158.160.13.76 \
               "echo 'Hello from GitHub Actions!'"
  
 
