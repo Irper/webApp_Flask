@@ -2,7 +2,8 @@ name: DeployWebApp_FlaskToDockerHubAndYC
 
 on:
   push:
-    branches: [ main ]  # Триггер на пуши в ветку main
+    branches:
+      - master
 
 env:
   DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}  # Логин Docker Hub
