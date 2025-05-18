@@ -20,8 +20,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
+      # Логинимся в Docker Hub и пушим образ
+      - name: Login to Docker Hub
+        run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
 
-      - name: SSH Deploy
+      - name: Build Docker image
+        run: docker build -t $DOCKER_HUB_USERNAME/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG .
+
+      - name: Push Docker image
+        run: docker push $DOCKER_HUB_USERNAME/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG
+
+
+
+
+      - name: Connect to YC VM
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.YC_VM_IP }}
@@ -29,6 +41,11 @@ jobs:
           key: ${{ secrets.KEY }}
           passphrase: ${{ secrets.YC_PASSPHRASE }}
           script: |
-            echo "Hello from GitHub Actions!"
+             "
+             docker stop $DOCKER_IMAGE_NAME || true && \
+             docker rm $DOCKER_IMAGE_NAME || true && \
+             docker pull $DOCKER_HUB_USERNAME/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG && \
+             docker run -d --name $DOCKER_IMAGE_NAME -p 22:5000 $DOCKER_HUB_USERNAME/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG
+             "
 
 
