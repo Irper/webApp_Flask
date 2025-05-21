@@ -12,4 +12,4 @@ RUN pip install flask
 
 COPY . /app
 
-CMD ["flask", "--host=0.0.0.0", "--port=5000", "app:app"]
+CMD ["flask", "run", "--host", "0.0.0.0", "--port", "5000"]
