@@ -3,7 +3,6 @@ from flask import Flask, render_template, redirect, url_for, flash, request, abo
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
-from flask_wtf.csrf import CSRFProtect
 from werkzeug.security import check_password_hash, generate_password_hash
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Length, EqualTo
@@ -24,17 +23,16 @@ app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 app.config['PERMANENT_SESSION_LIFETIME'] = 1800  # 30 минут
 
-csrf = CSRFProtect(app)
 
 # Инициализация расширений
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
-# Генерация ключа для шифрования (в реальном приложении хранить отдельно!)
-key = os.environ.get('ENCRYPTION_KEY')  # Получаем ключ из переменных окружения
+# Генерация ключа для шифрования
+key = os.getenv('ENCRYPTION_KEY').encode() # Получаем ключ из переменных окружения
+
 if not key:
-    # Если ключа нет - генерируем новый, но предупреждаем
     print("Внимание! Используется временный ключ шифрования. Для production задайте ENCRYPTION_KEY")
     key = Fernet.generate_key()
 

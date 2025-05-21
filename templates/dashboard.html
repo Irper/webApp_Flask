@@ -201,7 +201,6 @@
                         <div class="card-detail">Срок: {{ card.get_expiry_date() }}</div>
                         <div class="card-actions">
                             <form action="{{ url_for('delete_card', card_id=card.id) }}" method="POST">
-                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                                 <input type="submit" value="Удалить" onclick="return confirm('Вы уверены?');">
                             </form>
                         </div>
