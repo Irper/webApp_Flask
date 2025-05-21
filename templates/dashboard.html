@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Мои карты</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --danger: #f72585;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        h1 {
+            color: var(--primary);
+        }
+
+        .welcome {
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        .nav-links a {
+            margin-left: 1rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary);
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+        }
+
+        .btn-danger:hover {
+            background-color: #d1145a;
+        }
+
+        .card-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .card-item {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+
+        .card-number {
+            font-family: monospace;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-detail {
+            margin-bottom: 0.3rem;
+            color: #555;
+        }
+
+        .card-actions {
+            margin-top: 1rem;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .empty-state p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .flash-messages {
+            margin-bottom: 2rem;
+        }
+
+        .flash {
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+
+        .flash.success {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .flash.error {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+
+        form {
+            display: inline;
+        }
+
+        input[type="submit"] {
+            background-color: var(--danger);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #d1145a;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div>
+                <h1>Мои банковские карты</h1>
+                <p class="welcome">Добро пожаловать, {{ current_user.username }}!</p>
+            </div>
+            <div class="nav-links">
+                <a href="{{ url_for('add_card') }}" class="btn">Добавить карту</a>
+                <a href="{{ url_for('logout') }}">Выйти</a>
+            </div>
+        </header>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <h2>Список карт</h2>
+
+        {% if cards %}
+            <div class="card-list">
+                {% for card in cards %}
+                    <div class="card-item">
+                        <div class="card-number">**** **** **** {{ card.get_card_number()[-4:] if card.get_card_number()|length > 4 else "****" }}</div>
+                        <div class="card-detail">Владелец: {{ card.get_card_holder() }}</div>
+                        <div class="card-detail">Срок: {{ card.get_expiry_date() }}</div>
+                        <div class="card-actions">
+                            <form action="{{ url_for('delete_card', card_id=card.id) }}" method="POST">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <input type="submit" value="Удалить" onclick="return confirm('Вы уверены?');">
+                            </form>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <p>У вас пока нет сохраненных карт.</p>
+                <a href="{{ url_for('add_card') }}" class="btn">Добавить карту</a>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

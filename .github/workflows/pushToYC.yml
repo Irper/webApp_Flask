@@ -40,21 +40,7 @@ jobs:
           key: ${{ secrets.KEY }}
           passphrase: ${{ secrets.YC_PASSPHRASE }}
           script: |
-            sudo docker pull ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:latest
-
-            if sudo docker ps -a | grep -q ${{ env.DOCKER_IMAGE_NAME }}; then
-              sudo docker run -d -p 8080:5000 --name ${DOCKER_IMAGE_NAME}new ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}
-
-              until curl -s -o /dev/null http://localhost:8080; do
-                sleep 1
-              done
-
-              sudo docker stop ${{ env.DOCKER_IMAGE_NAME }}
-              sudo docker rm ${{ env.DOCKER_IMAGE_NAME }}
-
-              sudo docker stop ${DOCKER_IMAGE_NAME}new
-              sudo docker rm ${DOCKER_IMAGE_NAME}new
-              sudo docker run -d -p 80:5000 --name ${{ env.DOCKER_IMAGE_NAME }} ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}
-            else
-              sudo docker run -d -p 80:5000 --name ${{ env.DOCKER_IMAGE_NAME }} ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}
-            fi
+            sudo docker stop $(sudo docker ps -a -q)
+            sudo docker container prune --force
+            sudo docker rmi $(sudo docker images -q)
+            sudo docker run -p 80:5000 -d --rm --name ${{ env.DOCKER_IMAGE_NAME }} ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}
