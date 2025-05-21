@@ -93,7 +93,7 @@ class RegistrationForm(FlaskForm):
     username = StringField('Имя пользователя',
                            validators=[DataRequired(), Length(min=4, max=50)])
     password = PasswordField('Пароль',
-                             validators=[DataRequired(), Length(min=8)])
+                             validators=[DataRequired(), Length(min=3)])
     confirm_password = PasswordField('Подтвердите пароль',
                                      validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Зарегистрироваться')
