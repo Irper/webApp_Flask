@@ -13,7 +13,7 @@ import os
 import ssl
 
 
-load_dotenv()  # Загружает переменны из .env
+load_dotenv()  # Загружает переменные из .env
 # Конфигурация
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
