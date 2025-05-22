@@ -41,6 +41,5 @@ jobs:
           passphrase: ${{ secrets.YC_PASSPHRASE }}
           script: |
             sudo docker stop $(sudo docker ps -a -q)
-            sudo docker container prune --force
             sudo docker rmi $(sudo docker images -q)
             sudo docker run -p 80:5000 -d --rm --name ${{ env.DOCKER_IMAGE_NAME }} ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}
