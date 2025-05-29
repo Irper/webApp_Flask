@@ -225,5 +225,5 @@ if __name__ == '__main__':
     # Запуск с SSL в development (для production используйте Nginx + Gunicorn)
     context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)  # Современная версия
     context.minimum_version = ssl.TLSVersion.TLSv1_2  # Минимальная версия TLS
-    context.load_cert_chain('cert.pem', 'key.pem')  # Замените на свои сертификаты
+    context.load_cert_chain('cert.pem', 'key.pem')
     app.run(ssl_context=context, host='0.0.0.0', port=5000)
